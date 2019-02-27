@@ -1,31 +1,41 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <m-header></m-header>
+    <tab></tab>
+    <!--占位符用来显示其它的组-->
+    <router-view></router-view> 
   </div>
 </template>
 
+<script>
+//引入m-header.vue子组件
+import MHeader from './components/m-header/m-header.vue'
+import Tab from './components/tab/tab.vue'
+
+export default {
+  data(){
+    return{
+
+    }
+  },
+  created(){
+
+  },
+  methods: {
+    
+  },
+  components:{
+    MHeader,
+    Tab
+  }
+}
+</script>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+#app{
+  position:fixed;
+  top:0px;
+  width:100%;
+  height:100%;
 }
 </style>
