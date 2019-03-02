@@ -4,16 +4,15 @@
             <div>
                 <ul class="singer-list-item" ref="singerList">
                     <li v-for="item in singers" :key="item.id" ref="listIitem" >
-                        <p class="title" :id="item.title">{{item.title}}</p>
+                        <p class="title">{{item.title}}</p>
                         <ul>
-                            <li class="content" v-for="li in item.items" :key="li.id">
-                                <img v-lazy="li.avatar">
-                                <span>{{li.name}}</span>
+                            <li class="content" v-for="li in item.items" :key="li.id" :data-idx="li.id" @click="toSinger">
+                                <img v-lazy="li.avatar" :data-idx="li.id">
+                                <span :data-idx="li.id">{{li.name}}</span>
                             </li>
                         </ul>
                     </li>
                 </ul>
-                
             </div>
         </scroll>
         <ul class="rightdot">
@@ -21,6 +20,7 @@
                 <span :data-idx="i" @click="selectLetter" :class=" item.title==isStr || (isActive&&item.title=='热门')?'cl':''">{{item.title=="热门"?"热":item.title}}</span>
             </li>
         </ul>
+        <router-view></router-view>
     </div>
 </template>
 
@@ -80,18 +80,18 @@
                         item.initial = s[0][0].toUpperCase();
                     })
                     this.singers=this._normalizeSinger(list);
-                   // console.log(this.singers);
+                   //console.log(this.singers);
                 })
             },
             //按名字首字母排序
-            _normalizeSinger (list) {
-                let map = {
-                    hot: {
-                    title: this.HOT_NAME,
-                    items: []
+                 _normalizeSinger (list) {
+                    let map = {
+                        hot: {
+                        title: this.HOT_NAME,
+                        items: []
+                        }
                     }
-                }
-                list.forEach((item, index) => {
+                    list.forEach((item, index) => {
                     if (index < this.HOT_SINGERS) {
                     map.hot.items.push(new Singer({
                         id: item.id,
@@ -129,6 +129,10 @@
                         return a.title.charCodeAt(0) - b.title.charCodeAt(0)
                     })
                     return hot.concat(ret)
+                },
+                toSinger(e){
+                    var id=e.target.dataset.idx;
+                    this.$router.push("/singer/"+id);
                 },
                 scroll(pos){
                     /*for(var i=0;i<this.singers.length-1;i++){
@@ -184,6 +188,7 @@
         position:fixed;
         width:100%;
         height:100%;
+        z-index: 299;
     }
     div{
         height:1100vh;

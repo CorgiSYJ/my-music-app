@@ -4,7 +4,7 @@
         <router-link to="/user" tag="div" class="list">
             <span class="iconfont icon-liebiao"></span>
         </router-link>
-        <router-link to="" tag="div" class="search">
+        <router-link to="/search" tag="div" class="search">
             <span class="iconfont icon-sousuo"></span>
         </router-link>
     </div>
@@ -16,7 +16,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     @import "../../common/iconfont/iconfont.css";
     @import "../../common/css/base.css";
     .m-header{

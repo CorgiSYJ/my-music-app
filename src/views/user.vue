@@ -11,7 +11,7 @@
                 <i class="icon"></i >
                 <h3>播放全部</h3><p>（共0首）</p>
             </div>
-            <div class="list-wrapper">
+            <div class="list-wrapper" v-show="!isResult">
                 <scroll ref="favoriteList" class="list-scroll" v-if="currentIndex==0">
                     <div class="list-content">1111111111</div>
                 </scroll>
@@ -40,12 +40,10 @@ export default {
         }
     },
     created(){
-        this.searchlist();
-        this.localStorage.setItem("__favorite__",JSON.stringify([]))
+        this.getResult();
     },
     methods:{
         searchlist(){
-            console.log(localStorage.getItem("__favorite__"))
         },
         back(){
             this.$router.back();
@@ -53,6 +51,19 @@ export default {
         switchItem (index) {
             this.currentIndex = index;
         },
+        getResult(){
+            if(this.$store.state.favoriteList.length>0){
+                this.currentIndex=0;
+                this.isResult=false;
+            }else if(this.$store.state.playHistory.length>0){
+                this.currentIndex=1;
+                this.isResult=false;
+            }else{
+                 this.isResult=true;
+            }
+        }
+    },
+    computed:{
     },
     components:{
         Switches,
