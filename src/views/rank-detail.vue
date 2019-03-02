@@ -1,22 +1,22 @@
 <template>
     <transition name="slider">
-        <div class="singer-detail">
+        <div class="rank-detail">
             <div class="back" @click="back">
                 <i class="iconfont icon-tuihou"></i>
-                <h3>歌手</h3>
+                <h3>{{name}}</h3>
             </div>
             <div class="cover">
                 <img :src="imgUrl" alt="">
                 <h1>{{name}}</h1>
             </div>
-                <div class="details">
+            <div class="details">
                     <div class="user-play">
                         <i class="icon"></i >
-                        <h3>播放全部</h3><p>（共{{songlist.length}}首）</p>
+                        <h3>播放全部</h3><p>（共{{ranklist.length}}首）</p>
                     </div>
-                    <scroll ref="singer-details" class="singer-details">
+                    <scroll ref="de" class="de">
                         <div class="fix">
-                            <div class="details-item" v-for="(item,i) in songlist" :key="item.id">
+                            <div class="details-item" v-for="(item,i) in ranklist" :key="item.id">
                                 <p class="num">{{i+1}}</p>
                                 <h2 class="song">{{item.name}}
                                 <p class="des">{{item.alia.length>0?item.alia[0]:name}}</p></h2>
@@ -30,31 +30,31 @@
 
 <script>
 import Scroll from '../base/scroll/scroll'
-import {toSinger} from '../api/singer.js'
+import {getTop} from '../api/rank.js'
 
 export default {
     data(){
         return{
-            songlist:[],
-            imgUrl:"",
-            name:""
+            ranklist:[],
+            name:'',
+            imgUrl:''
         }
     },
     created(){
-        this._toSinger();
+        this._toRank();
     },
     methods:{
+        _toRank(){
+            var id=this.$route.params.id;
+            getTop(id).then((res)=>{
+                this.name=res.data.playlist.name;
+                this.imgUrl=res.data.playlist.coverImgUrl;
+                this.ranklist=res.data.playlist.tracks;
+                console.log(this.ranklist);
+            })
+        },  
         back(){
             this.$router.back();
-        },
-        _toSinger(){
-            var id=this.$route.params.id;
-            toSinger(id).then((res)=>{
-                this.imgUrl=res.data.artist.img1v1Url;
-                this.name=res.data.artist.name;
-                this.songlist=res.data.hotSongs;
-                console.log(res.data);
-            })
         }
     },
     components:{
@@ -71,13 +71,14 @@ export default {
         transform: translate3d(50%, 0, 0);
         opacity: 0;
     }
-    .singer-detail{
+    .rank-detail{
         position: fixed;
         top:0px;
+        left: 0;
         z-index: 399;
         width: 100%;
         height:100%;
-        background: #f1f1f1;
+        background: #aff;
     }
     .back{
         position: fixed;
@@ -90,7 +91,7 @@ export default {
         margin-left: 10px;
     }
     .back h3{
-        width: 50%;
+        width: 90%;
         font-size: 16px;
         color: #fff;
         margin:0 10px;
@@ -118,7 +119,7 @@ export default {
         background: url("../common/image/play.png") 5% 45% no-repeat ;
         background-size: 5%;
     }
-    .singer-details{    
+    .de{    
         height: 75vh;
         overflow: hidden;
     }

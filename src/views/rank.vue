@@ -1,10 +1,11 @@
 <template>
     <div class="rank" ref="rank">
+        <router-view></router-view>
         <scroll class="rank-content" ref="scroll" :data="yunTopList">
             <ul>
-                <li class="item" v-for="item in yunTopList" :key="item.id">
+                <li class="item" v-for="(item,i) in yunTopList" :key="item.id">
                     <div class="item-pic">
-                        <img v-lazy="item.coverImgUrl">
+                        <img v-lazy="item.coverImgUrl" @click="toRank" :data-idx="i">
                     </div>
                     <div class="song-list">
                         <div class="song" v-for="(song,i) in item.top" :key="i">
@@ -15,6 +16,7 @@
                 </li>
             </ul>
         </scroll>
+        
     </div>
 </template>
 
@@ -50,7 +52,11 @@ export default {
                     this.yunTopList.push(list);
                 })
             }
-        }
+        },  
+        toRank(e){
+            var id=YUNMUSIC_TOP[e.target.dataset.idx];
+            this.$router.push("/rank/"+id);
+        },        
     },
     components:{
         Scroll
@@ -64,12 +70,14 @@ export default {
         width:100%;
         margin-top:5px;
         height:100%;
+        z-index: 199;
     }
     ul{
-        height:700px;
+        height:900px;
     }
     .rank-content{
-        height:70vh;
+        height:100vh;
+        overflow: hidden;
     }
     .item{ 
         width:100%;

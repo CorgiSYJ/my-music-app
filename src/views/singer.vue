@@ -191,11 +191,12 @@
         z-index: 299;
     }
     div{
-        height:1100vh;
+        height:1130vh;
     }
     .singer-list{
         width:100%;
-        height:80vh;
+        height:100vh;
+        overflow: hidden;
     }
     .singer-list-item{
         position:absolute;
@@ -219,7 +220,7 @@
     }
     img{
         height:50px;
-        weight:50px;
+        width:50px;
         border-radius:3px;
         vertical-align: middle;
         margin:5px 10px 5px;
