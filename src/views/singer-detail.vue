@@ -16,7 +16,7 @@
                     </div>
                     <scroll ref="singer-details" class="singer-details">
                         <div class="fix">
-                            <div class="details-item" v-for="(item,i) in songlist" :key="item.id">
+                            <div class="details-item" v-for="(item,i) in songlist" :key="item.id" @click="getSongid(item)">
                                 <p class="num">{{i+1}}</p>
                                 <h2 class="song">{{item.name}}
                                 <p class="des">{{item.alia.length>0?item.alia[0]:name}}</p></h2>
@@ -37,15 +37,19 @@ export default {
         return{
             songlist:[],
             imgUrl:"",
-            name:""
+            name:"",
         }
     },
     created(){
         this._toSinger();
+        
     },
     methods:{
         back(){
             this.$router.back();
+        },
+        getSongid(a){
+            this.$bus.$emit("getSongs", a);
         },
         _toSinger(){
             var id=this.$route.params.id;
@@ -53,7 +57,7 @@ export default {
                 this.imgUrl=res.data.artist.img1v1Url;
                 this.name=res.data.artist.name;
                 this.songlist=res.data.hotSongs;
-                console.log(res.data);
+                console.log(this.songlist);
             })
         }
     },

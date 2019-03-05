@@ -92,6 +92,7 @@ import BScroll from 'better-scroll'
           click: this.click,
           scrollX: this.scrollX
         })
+        console.log(this.scroll);
         // 是否派发滚动事件
         if (this.listenScroll) {
           let me = this
